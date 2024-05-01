@@ -8,12 +8,19 @@ function To_do() {
   const [input, setInput] = useState("");
   const [addInput, setaddInput] = useState([]);
   const [editId ,setEditId] =useState(0)
+  const [dupli, setDuplicate]=useState("")
 
   const addTodo = () => {
     const isEmptyOrSpaces = /^\s*$/.test(input)
-    if (!isEmptyOrSpaces && !addInput.find((x)=> x.list === input )){
-        setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
-        setInput("");
+    if (!isEmptyOrSpaces){
+      if ( !addInput.find((x)=> x.list === input )){
+          setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
+          setInput("");
+      }else{
+          
+        setDuplicate("duplicate")
+
+      }
     }
     if(editId && !isEmptyOrSpaces && !addInput.find((x)=> x.list === input )){
         const editTodo=addInput.find((x)=> x.id ===editId)
@@ -59,10 +66,19 @@ function To_do() {
     setEditId(editTodo.id)
 
   }
+
+  const duplicate=()=>{
+
+    console.log(input,"....121")
+    setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
+    setInput("");
+    setDuplicate("");
+
+  }
   return (
+    
     <div className="container">
       <h2>To Do App</h2>
-
       <form className="form_group" onSubmit={handleSubmin}>
         <input
           type="text"
@@ -72,7 +88,9 @@ function To_do() {
           placeholder="Enter Your Todo..."
           className="form-control"
         />
-        <button onClick={addTodo}>{editId ? "Edit":"Add"}</button>
+
+        <button onClick={dupli ? duplicate: addTodo}>{editId ? "Edit":dupli? "Duplicate ":"Add"}</button>
+
       </form>
 
       <div className="list">
