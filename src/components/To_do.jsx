@@ -96,9 +96,9 @@ function To_do() {
 
       <div className="list">
         <ul>
-          {addInput.map((x) => (
+          {addInput.map((x,index) => (
             <li className="list-items">
-              <div key className="list-item-list" id={x.status ? "items" : ""}>{x.list}</div>
+              <div key={index} className="list-item-list" id={x.status ? "items" : ""}>{x.list}</div>
               <span>
                 <IoMdDoneAll
                   className="list-item-icon"
