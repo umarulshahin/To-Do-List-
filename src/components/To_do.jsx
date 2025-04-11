@@ -5,76 +5,77 @@ import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 function To_do() {
-  const [input, setInput] = useState("");
-  const [addInput, setaddInput] = useState([]);
-  const [editId ,setEditId] =useState(0)
-  const [dupli, setDuplicate]=useState("")
 
-  const addTodo = () => {
-    const isEmptyOrSpaces = /^\s*$/.test(input)
-    if (!isEmptyOrSpaces){
-      if ( !addInput.find((x)=> x.list === input )){
-          setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
-          setInput("");
-      }else{
-          
-        setDuplicate("duplicate")
+    const [input, setInput] = useState("");
+    const [addInput, setaddInput] = useState([]);
+    const [editId ,setEditId] =useState(0)
+    const [dupli, setDuplicate]=useState("")
 
-      }
-    }
-    if(editId && !isEmptyOrSpaces && !addInput.find((x)=> x.list === input )){
-        const editTodo=addInput.find((x)=> x.id ===editId)
-        const updateTodo=addInput.map((x)=>x.id === editTodo.id ?(x={id:x.id,list:input}):(x={id:x.id,list:x.list}))
-        setaddInput(updateTodo)
-        setEditId(0)
-        setInput("")
-    }
-  };
+    const addTodo = () => {
+      const isEmptyOrSpaces = /^\s*$/.test(input)
+      if (!isEmptyOrSpaces){
 
-  const handleSubmin = (e) => {
-    e.preventDefault();
-  };
-  const inputRef = useRef("null");
-
-  useEffect(() => {
-    inputRef.current.focus();
-  });
-
- const onDelete=(id)=>{
-
-   setaddInput(addInput.filter((x) => x.id !==id))
-
-  }
- 
-  const onComplete=(id)=>{
-     
-    let complete= addInput.map((x)=>{
-        if (id===x.id){
-
-            return ({...x,status : !x.status})
+        if ( !addInput.find((x)=> x.list === input )){
+            setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
+            setInput("");
+        }else{
+            
+          setDuplicate("duplicate")
 
         }
-        return x
-    })
-    setaddInput(complete)
+      }
+      if(editId && !isEmptyOrSpaces && !addInput.find((x)=> x.list === input )){
+          const editTodo=addInput.find((x)=> x.id ===editId)
+          const updateTodo=addInput.map((x)=>x.id === editTodo.id ?(x={id:x.id,list:input}):(x={id:x.id,list:x.list}))
+          setaddInput(updateTodo)
+          setEditId(0)
+          setInput("")
+      }
+    };
 
-  }
+    const handleSubmin = (e) => {
+          e.preventDefault();
+        };
+        const inputRef = useRef("null");
 
-  const onEdit=(id)=>{
-    const editTodo=addInput.find((to)=>to.id===id)
-    setInput(editTodo.list)
-    setEditId(editTodo.id)
+        useEffect(() => {
+          inputRef.current.focus();
+    });
 
-  }
+    const onDelete=(id)=>{
 
-  const duplicate=()=>{
+      setaddInput(addInput.filter((x) => x.id !==id))
 
-    console.log(input,"....121")
-    setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
-    setInput("");
-    setDuplicate("");
+      }
+  
+    const onComplete=(id)=>{
+      
+      let complete= addInput.map((x)=>{
+          if (id===x.id){
 
-  }
+              return ({...x,status : !x.status})
+
+          }
+          return x
+      })
+      setaddInput(complete)
+
+    }
+
+    const onEdit=(id)=>{
+      const editTodo=addInput.find((to)=>to.id===id)
+      setInput(editTodo.list)
+      setEditId(editTodo.id)
+
+    }
+
+    const duplicate=()=>{
+
+      setaddInput([...addInput, {list:input,id:Date.now(),status:false}]);
+      setInput("");
+      setDuplicate("");
+
+    }
   return (
     
     <div className="container">
@@ -97,7 +98,7 @@ function To_do() {
         <ul>
           {addInput.map((x) => (
             <li className="list-items">
-              <div className="list-item-list" id={x.status ? "items" : ""}>{x.list}</div>
+              <div key className="list-item-list" id={x.status ? "items" : ""}>{x.list}</div>
               <span>
                 <IoMdDoneAll
                   className="list-item-icon"
